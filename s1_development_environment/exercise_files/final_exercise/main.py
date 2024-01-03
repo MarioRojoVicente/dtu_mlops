@@ -30,26 +30,26 @@ def train(lr, epochs):
         totalAcc = 0
         count = 0
         for images, labels in train_set():
-            
+
             optimizer.zero_grad()
-            
+
             log_ps = model(images)
             loss = criterion(log_ps, labels)
             loss.backward()
             optimizer.step()
-            
+
             running_loss += loss.item()
 
             ps = torch.exp(log_ps)
             top_p, top_class = ps.topk(1, dim=0)
             equals = top_class == labels.view(*top_class.shape)
-            accuracy = torch.mean(equals.type(torch.FloatTensor))  
+            accuracy = torch.mean(equals.type(torch.FloatTensor))
             totalAcc = totalAcc + accuracy.item()
             count = count+1
         assert count != 0
         print(f'Accuracy: {totalAcc/count*100}%')
         print(f'Loss: {running_loss/count}')
-    
+
     checkpoint = {'input_size': 784,
               'output_size': 10,
               'hidden_layers': [each.out_features for each in model.hidden_layers],
@@ -89,7 +89,7 @@ def evaluate(model_checkpoint):
                 ps = torch.exp(model(images))
                 top_p, top_class = ps.topk(1, dim=0)
                 equals = top_class == labels.view(*top_class.shape)
-                accuracy = torch.mean(equals.type(torch.FloatTensor))  
+                accuracy = torch.mean(equals.type(torch.FloatTensor))
                 totalAcc = totalAcc + accuracy.item()
                 count = count+1
     print(f'Accuracy: {totalAcc/count*100}%')

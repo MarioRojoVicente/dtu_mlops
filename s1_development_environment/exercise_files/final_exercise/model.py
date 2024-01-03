@@ -1,6 +1,6 @@
-from torch import nn
-import torch.nn.functional as F
 import torch
+import torch.nn.functional as F
+from torch import nn
 
 
 class MyAwesomeModel(nn.Module):
@@ -13,7 +13,7 @@ class MyAwesomeModel(nn.Module):
         self.fc4 = nn.Linear(h3, output)
         self.drp = nn.Dropout(p=0.2)
         self.hidden_layers = [self.fc1, self.fc2, self.fc3]
-        
+
     def forward(self, x):
         # make sure input tensor is flattened
         x = torch.flatten(x)
@@ -22,5 +22,5 @@ class MyAwesomeModel(nn.Module):
         x = self.drp(F.relu(self.fc2(x)))
         x = self.drp(F.relu(self.fc3(x)))
         x = F.log_softmax(self.fc4(x), dim=0)
-        
+
         return x
