@@ -139,6 +139,8 @@ outputs/
 
 # datasets
 FashionMNIST/
+data/corruptmnist
+data/corruptmnist_v2
 
 # vs code
 .vscode/settings.json
